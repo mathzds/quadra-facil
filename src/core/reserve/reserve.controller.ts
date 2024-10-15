@@ -7,9 +7,14 @@ export class ReserveController {
   constructor(private readonly reserveService: ReserveService) { }
 
   @Post()
+  @Post()
   async create(@Body() body: unknown) {
-    const parsedBody = ReserveSchema.parse(body); // Validate and parse the incoming data
-    return this.reserveService.createReserve(parsedBody);
+      const parsedBody = ReserveSchema.parse(body);
+
+      parsedBody.startDateTime = new Date(parsedBody.startDateTime);
+      parsedBody.endDateTime = new Date(parsedBody.endDateTime);
+
+      return this.reserveService.createReserve(parsedBody);
   }
 
   @Get()
@@ -24,7 +29,7 @@ export class ReserveController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() body: unknown) {
-    const parsedBody = ReserveSchema.partial().parse(body); 
+    const parsedBody = ReserveSchema.partial().parse(body);
     return this.reserveService.updateReserve(id, parsedBody);
   }
 
