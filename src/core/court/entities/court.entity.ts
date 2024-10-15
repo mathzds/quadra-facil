@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { ReserveEntity } from "src/core/reserve/entities/reserve.entity";
 
 export enum Courts {
     TENNIS = "tennis",
@@ -21,6 +22,9 @@ export class CourtEntity {
 
     @Column({ type: "varchar", enum: Courts })
     type: Courts;
+
+    @OneToMany(() => ReserveEntity, reserve => reserve.court)
+    reservations: ReserveEntity[];
 
     @Column({ type: "boolean", default: true })
     available: boolean;

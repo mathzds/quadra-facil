@@ -1,4 +1,5 @@
-import { BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ReserveEntity } from "src/core/reserve/entities/reserve.entity";
+import { BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum Roles {
     ADMIN = "admin",
@@ -19,11 +20,14 @@ export class UserEntity {
     @Column({ type: "varchar" })
     password: string;
 
-    @Column({ type: "varchar" })
+    @Column({ type: "varchar", nullable: true })
     number: string
 
     @Column({ type: "varchar", enum: Roles, default: Roles.USER })
     role: Roles
+
+    @OneToMany(() => ReserveEntity, reserve => reserve.user)
+    reservations: ReserveEntity[];
 
     @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date

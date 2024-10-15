@@ -3,13 +3,14 @@ import { DataSource } from "typeorm"
 
 import { UserEntity } from "src/core/user/entities/user.entity"
 import { CourtEntity } from "src/core/court/entities/court.entity"
+import { ReserveEntity } from "src/core/reserve/entities/reserve.entity"
 
 export const AppDataSource = new DataSource({
     type: "sqlite",
     database: "database.sqlite",
     synchronize: true,
-    logging: false,
-    entities: [UserEntity, CourtEntity],
+    logging: true,
+    entities: [UserEntity, CourtEntity, ReserveEntity],
 })
 
 export const handleDatabase = async () => {
