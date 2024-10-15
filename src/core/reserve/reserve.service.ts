@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ReserveEntity } from './entities/reserve.entity';
 import BaseRepository from 'src/common/utils/base.repository';
 import { ReserveDto } from './dto/reserve-dto';
+import { LessThan, MoreThan } from 'typeorm';
 
 @Injectable()
 export class ReserveService extends BaseRepository<ReserveEntity> {
@@ -10,6 +11,18 @@ export class ReserveService extends BaseRepository<ReserveEntity> {
     }
 
     async createReserve(data: ReserveDto): Promise<ReserveEntity> {
+        const existingReservations = await this.repository.find({
+            where: {
+                court: { id: data.courtId },
+                startDateTime: LessThan(data.endDateTime),
+                endDateTime: MoreThan(data.startDateTime),
+            },
+        });
+    
+        if (existingReservations.length > 0) {
+            throw new BadRequestException('Court is already reserved for the selected time.');
+        }
+    
         const reserve = this.repository.create(data);
         return this.repository.save(reserve);
     }
