@@ -34,10 +34,10 @@ export class UserService extends BaseRepository<UserEntity> {
   async findUserById(id: number): Promise<UserEntity> {
     const user = await this.repository.findOneBy({ id });
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+        throw new NotFoundException(`User with ID ${id} not found`);
     }
     return user;
-  }
+}
 
   async findUserByEmail(email: string): Promise<UserEntity | null> {
     return await this.repository.findOne({ where: { email } });
