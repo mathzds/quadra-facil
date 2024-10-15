@@ -5,5 +5,6 @@ import { CourtController } from './court.controller';
 @Module({
   controllers: [CourtController],
   providers: [CourtService],
+  exports: [CourtService]
 })
-export class CourtModule {}
+export class CourtModule { }
