@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, BadRequestException, InternalServerErrorException, Param, Put, Delete } from '@nestjs/common';
 import { ReserveService } from './reserve.service';
 import { ReserveSchema, ReserveDto } from './dto/reserve-dto';
 import { JwtAuthGuard } from 'src/common/auth/auth.guard';
@@ -35,6 +35,36 @@ export class ReserveController {
       return reserve;
     } catch (error) {
       throw new InternalServerErrorException('An error occurred while creating the reservation');
+    }
+  }
+
+  @Post(':id/confirm')
+  async confirmReserve(@Request() req, @Param('id') reserveId: number): Promise<ReserveEntity> {
+    try {
+      const user = await this.userService.findUserByEmail(req.user.sub);
+      const reserveFound = await this.reserveService.findReserveById(reserveId);
+      if (!user) throw new BadRequestException('Usuário não encontrado');
+      if (!reserveFound) throw new BadRequestException('Reserva não encontrada');
+
+      const reserve = await this.reserveService.confirmReserve(user.id, reserveFound.id);
+      return reserve;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  @Delete(":id/cancel")
+  async cancelReserve(@Request() req, @Param('id') reserveId: number): Promise<{ message: string }> {
+    try {
+      const user = await this.userService.findUserByEmail(req.user.sub);
+      const reserveFound = await this.reserveService.findReserveById(reserveId);
+      if (!user) throw new BadRequestException('Usuário não encontrado');
+      if (!reserveFound) throw new BadRequestException('Reserva não encontrada');
+
+      const reserve = await this.reserveService.cancelReserve(user.id, reserveFound.id);
+      return reserve;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 }
