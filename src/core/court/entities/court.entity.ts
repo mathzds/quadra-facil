@@ -11,8 +11,8 @@ export enum Courts {
 
 @Entity()
 export class CourtEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({ type: "varchar", length: 100 })
     name: string;

@@ -18,17 +18,17 @@ export class CourtController {
   }
 
   @Get(":id")
-  async findByIdCourt(@Param("id") id: string): Promise<CourtEntity> {
+  async findByIdCourt(@Param("id") id: number): Promise<CourtEntity> {
     return await this.courtService.findByIdCourts(id);
   }
 
   @Patch(":id")
-  async updateCourt(@Param("id") id: string, @Body() data: Partial<CourtDto>): Promise<CourtEntity> {
+  async updateCourt(@Param("id") id: number, @Body() data: Partial<CourtDto>): Promise<CourtEntity> {
     return await this.courtService.updateCourt(id, data);
   }
 
   @Delete(":id")
-  async deleteCourt(@Param("id") id: string): Promise<void> {
+  async deleteCourt(@Param("id") id: number): Promise<void> {
     return await this.courtService.deleteCourt(id);
   }
 }

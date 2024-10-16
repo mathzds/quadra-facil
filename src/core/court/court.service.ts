@@ -17,13 +17,13 @@ export class CourtService extends BaseRepository<CourtEntity> {
         return await this.repository.save(court);
     }
 
-    async updateCourt(id: string, data: Partial<CourtDto>): Promise<CourtEntity> {
+    async updateCourt(id: number, data: Partial<CourtDto>): Promise<CourtEntity> {
         await this.findByIdCourts(id)
         const updateCourt = this.repository.merge(await this.findByIdCourts(id), data);
         return await this.repository.save(updateCourt);
     }
 
-    async deleteCourt(id: string): Promise<void> {
+    async deleteCourt(id: number): Promise<void> {
         const result = await this.findByIdCourts(id);
         await this.repository.remove(result);
     }
@@ -32,7 +32,7 @@ export class CourtService extends BaseRepository<CourtEntity> {
         return await this.repository.find();
     }
 
-    async findByIdCourts(id: string): Promise<CourtEntity> {
+    async findByIdCourts(id: number): Promise<CourtEntity> {
         const court = await this.repository.findOneBy({ id });
         if (!court) {
             throw new NotFoundException(`Court with ID ${id} not found`);

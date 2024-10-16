@@ -4,38 +4,47 @@
 - [x] CRUD court
 - [x] CRUD reserve
 
-## Description
+POST /users
+Content-Type: application/json
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+{
+  "name": "John Doe",
+  "email": "<john@example.com>",
+  "password": "password123",
+  "number": "12345678901"
+}
 
-## Project setup
+PATCH /users/1
+Content-Type: application/json
 
-```bash
-npm install
-```
+{
+  "name": "John Updated"
+}
 
-## Compile and run the project
+DELETE /users/1
 
-```bash
-# development
-$ npm run start
+GET /users/1
+GET /users?email=<john@example.com>
 
-# watch mode
-$ npm run start:dev
+POST /court
+Content-Type: application/json
 
-# production mode
-$ npm run start:prod
-```
+POST /court
+Content-Type: application/json
 
-## Run tests
+{
+  "name": "Quadra Central",
+  "address": "123 Rua Principal",
+  "type": "TENNIS",
+  "available": true
+}
+GET /court
+GET /court/1
+PATCH /court/1
+Content-Type: application/json
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+{
+  "address": "456 Novo Endereço",
+  "available": false
+}
+DELETE /court/1

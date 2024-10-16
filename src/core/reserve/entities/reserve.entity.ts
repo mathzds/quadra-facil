@@ -10,8 +10,8 @@ export enum ReservationStatus {
 
 @Entity()
 export class ReserveEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @ManyToOne(() => UserEntity, user => user.reservations)
     @JoinColumn({ name: "user_id" })
