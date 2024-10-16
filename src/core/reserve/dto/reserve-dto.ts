@@ -2,8 +2,8 @@ import { z } from 'zod';
 import { ReservationStatus } from '../entities/reserve.entity';
 
 export const ReserveSchema = z.object({
-  userId: z.number(),
-  courtId: z.string().uuid(), 
+  user_id: z.number(), 
+  court_id: z.string(),
   startDateTime: z.string().transform((value) => new Date(value)),
   endDateTime: z.string().transform((value) => new Date(value)),
   status: z.enum([ReservationStatus.PENDING, ReservationStatus.CONFIRMED, ReservationStatus.CANCELED]),
