@@ -7,15 +7,16 @@ import { UserService } from '../user/user.service';
 @UseGuards(JwtAuthGuard)
 @Controller('reserve')
 export class ReserveController {
-  constructor(private readonly reserveService: ReserveService, private readonly userServices: UserService) { }
+  constructor(
+    private readonly reserveService: ReserveService,
+    private readonly userServices: UserService
+  ) { }
 
   @Post()
   async create(@Body() body: ReserveDto, @Request() req) {
     const user = await this.userServices.findUserByEmail(req.user.sub).then(user => user.id);
-    console.log(user)
-    if (!user) {
-      throw new BadRequestException('User not found.');
-    }
+
+    if (!user) throw new BadRequestException('User not found.')
 
     if (!body.startDateTime || !body.endDateTime) {
       throw new BadRequestException('Start and end times must be provided.');

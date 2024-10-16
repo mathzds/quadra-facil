@@ -16,9 +16,7 @@ export class ReserveService extends BaseRepository<ReserveEntity> {
         const court = await this.repository.manager.findOne(CourtEntity, { where: { id: data.court_id } });
         const user = await this.repository.manager.findOne(UserEntity, { where: { id: data.user_id } });
 
-        if (!court || !user) {
-            throw new NotFoundException('Court or User not found');
-        }
+        if (!court || !user) throw new NotFoundException('Court or User not found');
 
         const existingReservations = await this.repository.find({
             where: {
@@ -60,7 +58,6 @@ export class ReserveService extends BaseRepository<ReserveEntity> {
         if (!existingReserve) {
             throw new NotFoundException(`Reserve with ID ${id} not found`);
         }
-
 
         const updateReserve = this.repository.merge(existingReserve, data);
         return await this.repository.save(updateReserve);
